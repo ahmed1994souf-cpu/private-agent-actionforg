@@ -231,6 +231,11 @@ class AgentAccessibilityService : AccessibilityService() {
     ): Boolean {
         val text = node.text?.toString() ?: ""
         val desc = node.contentDescription?.toString() ?: ""
+        val bounds = Rect()
+        node.getBoundsInScreen(bounds)
+        // Do not click matching labels that are hidden or have no on-screen area.
+        // Web pages can retain off-screen/hidden accessibility nodes during navigation.
+        val visibleOnScreen = node.isVisibleToUser && !bounds.isEmpty
 
         val exactMatch = text.equals(targetText, ignoreCase = true)
             || desc.equals(targetText, ignoreCase = true)
@@ -238,7 +243,9 @@ class AgentAccessibilityService : AccessibilityService() {
             || desc.contains(targetText, ignoreCase = true)
         val matches = if (exactOnly) exactMatch else containsMatch
 
-        if (matches && (!skipEditable || !node.isEditable) && clickNodeOrParent(node)) {
+        if (visibleOnScreen && matches &&
+            (!skipEditable || !node.isEditable) && clickNodeOrParent(node)
+        ) {
             return true
         }
 
