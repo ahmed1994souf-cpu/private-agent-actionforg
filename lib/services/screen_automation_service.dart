@@ -153,9 +153,24 @@ class ScreenAutomationService {
       buffer.writeln('APP: $pkg');
     }
     
-    // Extract task keywords for highlighting
-    final stopWords = {'to', 'and', 'the', 'a', 'in', 'of', 'for', 'on', 'with', 'at', 'by', 'from', 'go', 'turn', 'open'};
-    final keywords = task.toLowerCase().replaceAll(RegExp(r'[^a-z0-9\s]'), '').split(RegExp(r'\s+')).where((w) => w.isNotEmpty && !stopWords.contains(w)).toList();
+    // Extract task keywords for highlighting.
+    final stopWords = {
+      // English stop words
+      'to', 'and', 'the', 'a', 'in', 'of', 'for', 'on', 'with', 'at', 'by',
+      'from', 'go', 'turn', 'open',
+      // Common Arabic command words; keep meaningful target words.
+      'افتح', 'اذهب', 'انتقل', 'الى', 'إلى', 'من', 'في', 'على', 'ثم',
+      'اضغط', 'انقر', 'اختر', 'ابحث', 'عن', 'لي', 'هذا', 'هذه',
+    };
+    // Preserve Arabic letters and digits as well as English text. The old
+    // ASCII-only pattern removed Arabic words before matching screen labels.
+    final normalizedTask = task
+        .toLowerCase()
+        .replaceAll(RegExp(r'[^a-z0-9\u0600-\u06FF\s]'), ' ');
+    final keywords = normalizedTask
+        .split(RegExp(r'\s+'))
+        .where((word) => word.isNotEmpty && !stopWords.contains(word))
+        .toList();
 
     for (final node in nodes) {
       final index = node['index'];
