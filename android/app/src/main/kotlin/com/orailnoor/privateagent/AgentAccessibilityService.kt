@@ -359,8 +359,15 @@ class AgentAccessibilityService : AccessibilityService() {
         val label = (node.text?.toString().orEmpty().ifEmpty {
             node.contentDescription?.toString().orEmpty()
         }).trim().lowercase()
-        val actionLabels = setOf("search", "enter", "go", "done", "send", "next")
-        if (node.isClickable && (label in actionLabels || label.endsWith(" search"))) {
+        // Android keyboards use localized labels, so include common Arabic
+        // equivalents for Search/Go/Done/Send/Next as well as English labels.
+        val actionLabels = setOf(
+            "search", "enter", "go", "done", "send", "next",
+            "بحث", "إدخال", "ادخال", "انتقال", "تم", "إرسال", "ارسال", "التالي"
+        )
+        if (node.isClickable &&
+            (label in actionLabels || label.endsWith(" search") || label.endsWith(" بحث"))
+        ) {
             return AccessibilityNodeInfo.obtain(node)
         }
 
