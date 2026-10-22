@@ -833,26 +833,34 @@ Step ${step + 1}/${_aiService.maxSteps}. Look at the text dump and coordinates. 
       ];
     }
 
+    // Include common Arabic task words so navigation shortcuts also work
+    // when the user gives the goal in Arabic.
     final appPatterns = <String, List<String>>{
-      'Settings': ['settings', 'brightness', 'display', 'notification'],
-      'Play Store': [
-        'play store',
-        'playstore',
-        'download',
-        'install app',
-        'google play',
+      'Settings': [
+        'settings', 'brightness', 'display', 'notification',
+        'الإعدادات', 'اعدادات', 'السطوع', 'الشاشة', 'الإشعارات',
       ],
-      'YouTube': ['youtube'],
-      'WhatsApp': ['whatsapp'],
-      'Chrome': ['chrome', 'browse', 'search google'],
-      'Camera': ['camera', 'take a photo', 'take photo', 'take a picture'],
-      'Gallery': ['gallery', 'photos'],
-      'Messages': ['message', 'sms', 'text to'],
-      'Phone': ['call', 'dial'],
-      'Gmail': ['gmail', 'email'],
-      'Maps': ['maps', 'navigate to', 'directions'],
-      'Clock': ['alarm', 'timer', 'stopwatch'],
-      'Calculator': ['calculator', 'calculate', 'calc'],
+      'Play Store': [
+        'play store', 'playstore', 'download', 'install app', 'google play',
+        'متجر play', 'متجر بلاي', 'متجر التطبيقات', 'تحميل تطبيق', 'تثبيت تطبيق',
+      ],
+      'YouTube': ['youtube', 'يوتيوب'],
+      'WhatsApp': ['whatsapp', 'واتساب', 'واتس اب'],
+      'Chrome': [
+        'chrome', 'browse', 'search google', 'كروم', 'متصفح', 'تصفح',
+        'ابحث في الانترنت', 'ابحث على الانترنت',
+      ],
+      'Camera': [
+        'camera', 'take a photo', 'take photo', 'take a picture',
+        'الكاميرا', 'التقط صورة', 'خذ صورة',
+      ],
+      'Gallery': ['gallery', 'photos', 'المعرض', 'الصور'],
+      'Messages': ['message', 'sms', 'text to', 'الرسائل', 'رسالة', 'رسائل'],
+      'Phone': ['call', 'dial', 'الهاتف', 'اتصل', 'مكالمة'],
+      'Gmail': ['gmail', 'email', 'جيميل', 'البريد الإلكتروني', 'البريد الالكتروني'],
+      'Maps': ['maps', 'navigate to', 'directions', 'خرائط', 'الخرائط', 'اتجاهات'],
+      'Clock': ['alarm', 'timer', 'stopwatch', 'الساعة', 'منبه', 'مؤقت'],
+      'Calculator': ['calculator', 'calculate', 'calc', 'الحاسبة', 'آلة حاسبة'],
     };
 
     for (final entry in appPatterns.entries) {
